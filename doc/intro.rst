@@ -3,27 +3,46 @@
 Introduction and Overview
 =========================
 
-Cabal is the standard package system for
-Haskell_ software. It helps people to
-configure, build and install Haskell software and to distribute it
-easily to other users and developers.
+Welcome to the documentation of the cabal system for writing, using
+and distributing packages for Haskell.
+The packaging ecosystem of Haskell might look confusing,
+since it consists of many interacting parts such as the package format, build tools,
+package repositories, documentation generators, compilers and many more.
+This section gives a high-level overview of what role cabal is playing in all this.
 
-There is a command line tool called ``cabal`` for working with Cabal
-packages. It helps with installing existing packages and also helps
-people developing their own packages. It can be used to work with local
-packages or to install packages from online package archives, including
-automatically installing dependencies. By default it is configured to
-use Hackage_ which is Haskell's central
-package archive that contains thousands of libraries and applications in
-the Cabal package format.
+Writing plain Haskell without packages
+--------------------------------------
 
+When you start writing Haskell you probably use the interactive REPL ghci, an online playground
+or you work with single-file Haskell projects that you compile using the GHC compiler.
+At this point you don't have to concern yourself with the packaging ecosystem yet, since you
+are mostly interacting directly with the Haskell compiler GHC.
+Here is how GHC compares to other compilers for other languages:
 
-Cabal is a package system for Haskell software. The point of a package
-system is to enable software developers and users to easily distribute,
-use and reuse software. A package system makes it easier for developers
-to get their software into the hands of users. Equally importantly, it
-makes it easier for software developers to be able to reuse software
-components written by other developers.
+.. list-table:: Compilers for various programming languages
+    :widths: 50 50
+    :header-rows: 1
+
+    * - Programming Language
+      - Compiler
+    * - Haskell
+      - GHC, GHCJS
+    * - Rust
+      - rustc
+    * - C, C++
+      - gcc, clang
+    * - Scala
+      - scalac
+
+But once you are familiar with the basic syntax of Haskell programs, you probably want
+to write a more exciting program. In that case you have to depend on libraries that
+other people have written before you.
+These libraries are distributed as cabal packages, which are not part of the
+official Haskell language specification.
+Rather they are a feature provided by the combination of Cabal and GHC.
+
+Cabal Packages: A source based distribution model
+-------------------------------------------------
 
 Packaging systems deal with packages and with Cabal we call them *Cabal
 packages*. The Cabal package is the unit of distribution. Every Cabal
@@ -46,85 +65,89 @@ When distributed, Cabal packages use the standard compressed tarball
 format, with the file extension ``.tar.gz``, e.g.
 ``filepath-1.0.tar.gz``.
 
-Note that packages are not part of the Haskell language, rather they are
-a feature provided by the combination of Cabal and GHC (and several
-other Haskell implementations).
+Package descriptions: The cabal file
+------------------------------------
 
-A tool for working with packages
---------------------------------
-
-There is a command line tool, called "``cabal``", that users and
-developers can use to build and install Cabal packages. It can be used
-for both local packages and for packages available remotely over the
-network. It can automatically install Cabal packages plus any other
-Cabal packages they depend on.
-
-Developers can use the tool with packages in local directories, e.g.
+If you inspect the source code repository of any Haskell project, you are almost guaranteed to find
+a file which ends in .cabal.
+Haskell programmers usually call it the "cabal file", but officially it is called the package description.
+Here is an example of how these package descriptions look like:
 
 ::
 
-    $ cd foo/
-    $ cabal install
+    cabal-version:  3.0
+    name:           HUnit
+    version:        1.1.1
+    synopsis:       A unit testing framework for Haskell
+    homepage:       http://hunit.sourceforge.net/
+    category:       Testing
+    author:         Dean Herington
+    license:        BSD-3-Clause
+    license-file:   LICENSE
 
-While working on a package in a local directory, developers can run the
-individual steps to configure and build, and also generate documentation
-and run test suites and benchmarks.
+    library
+      build-depends:      base >= 2 && < 4
+      exposed-modules:    Test.HUnit.Base, Test.HUnit.Lang,
+                          Test.HUnit.Terminal, Test.HUnit.Text, Test.HUnit
+      default-extensions: CPP
+      default-language:   Haskell2010
 
-It is also possible to install several local packages at once, e.g.
+Package descriptions contain general metadata such as the name of the author of the package, the license under
+which it is published, its version and the link to a website where you usually find an issue tracker.
+This is an example of a package which provides a library, so there is a library section which specifies a list
+of other packages the library depends on (in the build-depends field), and a list of modules this library provides
+to users of the library (in the exposed-modules field).
+Other packages may also contain information about testsuites and executables it provides.
+Here are some similar package description formats for other programming languages:
 
-::
+.. list-table:: Package description formats for other programming languages
+    :widths: 50 50
+    :header-rows: 1
 
-    $ cabal install foo/ bar/
+    * - Programming Language
+      - Package Description Format
+    * - Haskell
+      - example.cabal
+    * - Rust
+      - cargo.toml
+    * - Javascript
+      - package.yaml
+    * - Ruby
+      - .gemspec
 
-Developers and users can use the tool to install packages from remote
-Cabal package archives. By default, the ``cabal`` tool is configured to
-use the central Haskell package archive called
-Hackage_ but it is possible to use it
-with any other suitable archive.
+.. TIP::
 
-::
+  The cabal file format is described in the section on :doc:`package descriptions <cabal-package>`.
 
-    $ cabal install xmonad
 
-This will install the ``xmonad`` package plus all of its dependencies.
+Cabal-install: The CLI tool
+---------------------------
 
-In addition to packages that have been published in an archive,
-developers can install packages from local or remote tarball files, for
-example
+There are several build tools which can use the information contained in cabal files.
+One of the most important ones is invoked with "cabal", and 
+If we want talk explicitly about the command line application and not the package format, we use the word "cabal-install".
+Here are some of the other
 
-::
+.. list-table:: Tools similar to cabal-install for other programming languages
+    :widths: 50 50
+    :header-rows: 1
 
-    $ cabal install foo-1.0.tar.gz
-    $ cabal install http://example.com/foo-1.0.tar.gz
+    * - Programming Language
+      - Build Tool
+    * - Haskell
+      - cabal-install
+    * - Haskell
+      - stack
+    * - Rust
+      - cargo
 
-Cabal provides a number of ways for a user to customise how and where a
-package is installed. They can decide where a package will be installed,
-which Haskell implementation to use and whether to build optimised code
-or build with the ability to profile code. It is not expected that users
-will have to modify any of the information in the ``.cabal`` file.
+As you can see, we have listed another Haskell tool in this list: stack.
+Users of `stack` also use the package description format described above, but they use another way to find compatible sets of cabal packages.
+Some programmers also use a general purpose build system such as nix or bazel instead of the Haskell specific cabal-install.
 
-Note that ``cabal`` is not the only tool for working with Cabal
-packages. Due to the standardised format and a library for reading
-``.cabal`` files, there are several other special-purpose tools.
+.. TIP::
 
-What's in a package
--------------------
-
-A Cabal package consists of:
-
--  Haskell software, including libraries, executables and tests
--  metadata about the package in a standard human and machine readable
-   format (the "``.cabal``" file)
--  a standard interface to build the package (the "``Setup.hs``" file)
-
-The ``.cabal`` file contains information about the package, supplied by
-the package author. In particular it lists the other Cabal packages that
-the package depends on.
-
-For full details on what goes in the ``.cabal`` and ``Setup.hs`` files,
-and for all the other features provided by the build system, see the
-section on :doc:`developing packages <developing-packages>`.
-
+  The various subcommands that cabal-install provides are documented in the section on :doc:`cabal commands <cabal-commands>`.
 
 Hackage: The package repository
 -------------------------------------
@@ -154,13 +177,14 @@ Here are some package repositories that you might know from other programming la
 Most open source developers use the official Hackage_ instance, but it is also possible to host
 a Hackage instance yourself.
 You can also depend directly on packages which are available in a source code repository, but not
-hosted on Hackage.
+hosted on a package repository.
 This is useful in cases where you want to depend on a library that is still experimental and hasn't been published yet.
 
 Contributing to Cabal
 ---------------------
 
-TODO
+If you found a bug in cabal, have a feature request or want to contribute yourself to the development of cabal, then you
+should start in the official github repository.
 
 
 .. include:: references.inc
