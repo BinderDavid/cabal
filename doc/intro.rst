@@ -145,53 +145,5 @@ Some parts of the system can be used without others. In particular the
 built-in build system for simple packages is optional: it is possible to
 use custom build systems.
 
-Similar systems
----------------
-
-The Cabal system is roughly comparable with the system of Python Eggs,
-Ruby Gems or Perl distributions. Each system has a notion of
-distributable packages, and has tools to manage the process of
-distributing and installing packages.
-
-Hackage is an online archive of Cabal packages, roughly comparable to
-CPAN.
-
-Cabal is often compared with autoconf and automake and there is some
-overlap in functionality. The most obvious similarity is that the
-command line interface for actually configuring and building packages
-follows the same steps and has many of the same configuration
-parameters.
-
-::
-
-    $ ./configure --prefix=...
-    $ make
-    $ make install
-
-compared to
-
-::
-
-    $ cabal configure --prefix=...
-    $ cabal build
-    $ cabal install
-
-Cabal's build system for simple packages is considerably less flexible
-than make/automake, but has builtin knowledge of how to build Haskell
-code and requires very little manual configuration. Cabal's simple build
-system is also portable to Windows, without needing a Unix-like
-environment such as cygwin/mingwin.
-
-Compared to autoconf, Cabal takes a somewhat different approach to
-package configuration. Cabal's approach is designed for automated
-package management. Instead of having a configure script that tests for
-whether dependencies are available, Cabal packages specify their
-dependencies. There is some scope for optional and conditional
-dependencies. By having package authors specify dependencies it makes it
-possible for tools to install a package and all of its dependencies
-automatically. It also makes it possible to translate (in a
-mostly-automatically way) into another package format like RPM or deb
-which also have automatic dependency resolution.
-
 
 .. include:: references.inc
