@@ -8,6 +8,7 @@ Welcome to the Cabal User Guide
 
 
    intro
+   cabal-concepts
    getting-started
    developing-packages
    nix-local-build-overview
