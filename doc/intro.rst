@@ -1,5 +1,8 @@
 .. highlight:: console
 
+Introduction and Overview
+=========================
+
 Cabal is the standard package system for
 Haskell_ software. It helps people to
 configure, build and install Haskell software and to distribute it
@@ -14,8 +17,6 @@ use Hackage_ which is Haskell's central
 package archive that contains thousands of libraries and applications in
 the Cabal package format.
 
-Introduction
-============
 
 Cabal is a package system for Haskell software. The point of a package
 system is to enable software developers and users to easily distribute,
@@ -124,26 +125,42 @@ For full details on what goes in the ``.cabal`` and ``Setup.hs`` files,
 and for all the other features provided by the build system, see the
 section on :doc:`developing packages <developing-packages>`.
 
-Cabal featureset
-----------------
 
-Cabal and its associated tools and websites covers:
+Hackage: The package repository
+-------------------------------------
 
--  a software build system
--  software configuration
--  packaging for distribution
--  automated package management
+Once you have developed a cabal package and consider it polished, you probably want to share it with other users.
+This is where the package repository Hackage_ comes into play.
+Hackage is an online repository where thousands of open source libraries and executables are available for you to use in your own projects.
+Here are some package repositories that you might know from other programming languages:
 
-   -  natively using the ``cabal`` command line tool; or
-   -  by translation into native package formats such as RPM or deb
+.. list-table:: Package repositories for various programming languages
+    :widths: 50 50
+    :header-rows: 1
+    
+    * - Programming Language
+      - Package Repository
+    * - Haskell
+      - Hackage_
+    * - Rust
+      - `crates.io <https://crates.io/>`_
+    * - Ruby
+      - `rubygems <https://rubygems.org/>`_
+    * - Perl
+      - `CPAN <https://www.cpan.org/>`_
+    * - Javascript
+      - `npm <https://www.npmjs.com/>`_
 
--  web and local Cabal package archives
+Most open source developers use the official Hackage_ instance, but it is also possible to host
+a Hackage instance yourself.
+You can also depend directly on packages which are available in a source code repository, but not
+hosted on Hackage.
+This is useful in cases where you want to depend on a library that is still experimental and hasn't been published yet.
 
-   -  central Hackage website with 1000's of Cabal packages
+Contributing to Cabal
+---------------------
 
-Some parts of the system can be used without others. In particular the
-built-in build system for simple packages is optional: it is possible to
-use custom build systems.
+TODO
 
 
 .. include:: references.inc

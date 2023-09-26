@@ -6,8 +6,8 @@ Welcome to the Cabal User Guide
    :maxdepth: 2
    :numbered:
 
-   getting-started
    intro
+   getting-started
    concepts-and-development
    nix-local-build-overview
    cabal-config-and-commands
