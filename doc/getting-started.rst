@@ -210,5 +210,4 @@ What Next?
 
 Now that you know how to set up a simple Haskell package using Cabal, check out
 some of the resources on the Haskell website's `documentation page
-<https://www.haskell.org/documentation/>`__ or read more about packages and
-Cabal on the :doc:`introduction <intro>` page.
+<https://www.haskell.org/documentation/>`__.

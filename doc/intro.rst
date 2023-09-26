@@ -10,6 +10,8 @@ since it consists of many interacting parts such as the package format, build to
 package repositories, documentation generators, compilers and many more.
 This section gives a high-level overview of what role cabal is playing in all this.
 
+If you prefer to get started directly, consider jumping to the getting started with Haskell and Cabal section.
+
 Writing plain Haskell without packages
 --------------------------------------
 
