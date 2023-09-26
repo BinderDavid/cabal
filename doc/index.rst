@@ -16,5 +16,4 @@ Welcome to the Cabal User Guide
    setup-commands
    file-format-changelog
    buildinfo-fields-reference
-   bugs-and-stability
    nix-integration
